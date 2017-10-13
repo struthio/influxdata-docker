@@ -1,4 +1,4 @@
-FROM buildpack-deps:stretch-curl
+FROM resin/rpi-raspbian:jessie
 
 RUN set -ex && \
     for key in \
@@ -8,6 +8,8 @@ RUN set -ex && \
         gpg --keyserver pgp.mit.edu --recv-keys "$key" || \
         gpg --keyserver keyserver.pgp.com --recv-keys "$key" ; \
     done
+
+RUN apt-get update && apt-get -y install wget
 
 ENV INFLUXDB_VERSION 1.3.6
 RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" && \
